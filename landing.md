@@ -64,10 +64,10 @@
   - **CTA Button 2**: "Donate Now"
 
 #### 8. Footer
-- **Navigasi Tambahan**: Tautan ke halaman Private Sale, Donasi, Tentang Kami, FAQ, dan Kontak.
-- **Sosial Media**: Tautan ke akun media sosial.
-- **Kontak**: Informasi kontak singkat.
-- **Copyright**: Informasi hak cipta.
+- **Additional Navigation**: Links to Private Sale, Donation, About Us, FAQ, and Contact pages.
+- **Social Media**: Links to social media accounts.
+- **Contact Information**: Brief contact information.
+- **Copyright**: Copyright information.
 
 
 #### 9. Desain UI/UX
