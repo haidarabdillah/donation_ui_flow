@@ -24,13 +24,17 @@
 
 - **Alat Estimasi**: Memungkinkan pengguna untuk memasukkan jumlah BNB dan melihat perkiraan token Moringa yang akan mereka terima.
   - **Kolom Pilih currency**: "pilih bnb/usdt"
-  - **Kolom Input**: "Masukkan jumlah moringga yang ingin di beli, bisa setting max sesuai balnce dia: [ ]"
+  - **Kolom Input**: "Masukkan jumlah moringga yang ingin di beli, bisa setting max sesuai balnce dia: [ ]", tambahkan error minimum buy ketika dia input dalam usdt/bnb, dengan estimasi dibawah 1000 moringa
   - **Kolom Output**: "Estimasi token Moringa: [ ]"
+  - **Tombol CTA**: "Tombol buy on click ke halaman nomor 5"
 
-#### 5. Saldo Dompet Pengguna
 
-- **Saldo Dompet**: Menampilkan saldo BNB dan USDT pengguna setelah dompet Web3 terhubung.
-  - Contoh: "Saldo Anda: 3 BNB, 1000 USDT"
+#### 5. payment details
+seperti pada gambar ini https://photos.pinksale.finance/file/pinksale-logo-upload/1721324786953-ec81487a2cb7daeb9520a4887ad3d99e.png
+  - **QRCODE**: untuk pembayaran user bisa transfer usdt/bnb.
+  - **amount in BNB/USDT**: sesuai dengan pilihan user ketika mengisi di kalkulator serta cantumkan currency nya
+  - **amount in MORINGA**: sesuai dengan inputan user ketika mengisi di kalkulator serta cantumkan currency MRG nya
+  - **Tombol pay with wallet**: "otomatis mentrigger user untuk melakukan pembelian via web3 wallet nya sesuai amount yang di input diawal"
 
 #### 6. Riwayat Pembelian Real-Time (Umum)
 

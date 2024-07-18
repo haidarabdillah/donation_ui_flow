@@ -1,0 +1,667 @@
+openapi: 3.0.0
+info:
+  title: My API
+  description: API for signin and signup
+  version: 1.0.0
+
+paths:
+  /auth/signup:
+    post:
+      tags:
+        - User Authentication
+      summary: Send Email Verification
+
+      requestBody:
+        description: Sign up request
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: Email
+                reff_code:
+                  type: string
+                  description: username of refferal user
+
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              example:
+                message: Verification email sent successfully
+
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              example:
+                message: some form must be filled or email must be valid, email already registered or maybe refferal not found
+
+  /auth/verify_signup_code:
+    post:
+      tags:
+        - User Authentication
+      summary: Sign up
+      requestBody:
+        description: Sign up request
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: Email
+                code:
+                  type: number
+                  description: verify_code
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              example:
+                message: Verification email sent successfully
+
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              example:
+                message: some form must be filled or code invalid
+
+  /auth/verify_signup:
+    post:
+      tags:
+        - User Authentication
+      summary: Sign up
+      requestBody:
+        description: Sign up request
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: Email
+                code:
+                  type: number
+                  description: verify_code
+                password:
+                  type: string
+                  description: password
+                reff_code:
+                  type: string
+                  description: username of refferal user
+
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              example:
+                message: Verification email sent successfully
+
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              example:
+                message: some form must be filled or code invalid
+
+  /auth/signin:
+    post:
+      tags:
+        - User Authentication
+      summary: Sign In
+      requestBody:
+        description: Sign In request
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: Email
+                password:
+                  type: string
+                  description: password
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              example:
+                message: your account has been succesfully login
+                token: JWT token
+
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              example:
+                message: some form must be filled or code invalid
+
+  /auth/request_reset_password:
+    post:
+      tags:
+        - User Authentication
+      summary: reset password
+      requestBody:
+        description: Request code to reset password
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: Email
+
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              example:
+                message: Verification code has been sent successfully to your mail
+
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              example:
+                message: some form must be filled or code invalid
+
+  /auth/verify_reset_password:
+    post:
+      tags:
+        - User Authentication
+      summary: reset password
+      requestBody:
+        description: Request code to reset password
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: Email
+                code:
+                  type: number
+                  description: code
+                password:
+                  type: string
+                  description: Email
+
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              example:
+                message: Verification code has been sent successfully to your mail
+
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              example:
+                message: some form must be filled or code invalid
+
+  /private/profile:
+    get:
+      tags:
+        - Private API
+      summary: Get Profile Information
+      description: Retrieves profile information for the authenticated user.
+      security:
+        - bearerAuth: ["token"] # Apply the security scheme here
+      responses:
+        '200':
+          description: Profile retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  balance_token:
+                    type: integer
+                    description: User's balance.
+                  address:
+                    type: string
+                    description: User's wallet address.
+                  reff_code:
+                    type: string
+                    description: User's referral code.
+              example:
+                balance: 2000
+                reward_balance: 200
+                address: "0x121233"
+                reff_code: "code123"
+
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              example:
+                message: some form must be filled or code invalid
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+                    example: "Unauthorized User."
+
+  /private/reff_list:
+    get:
+      tags:
+        - Private API
+      summary: Get Referral List
+      description: Retrieves a paginated list of referrals for the authenticated user.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: Page number (1-based).
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            default: 10
+          description: Number of referrals per page.
+      responses:
+        '200':
+          description: Referral list retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: integer
+                    description: Current page number.
+                  per_page:
+                    type: integer
+                    description: Number of referrals per page.
+                  total_reff:
+                    type: integer
+                    description: Total number of referrals.
+                  ref_list:
+                    type: array
+                    description: Array of referral objects.
+                    items:
+                      type: object
+                      properties:
+                        email:
+                          type: string
+                          description: Referral's email address.
+                        state:
+                          type: string
+                          description: Referral's state (e.g., "verified", "pending").
+                        total_reward_ref:
+                          type: integer
+                          description: Referral reward amount.
+              example:
+                page: 1
+                per_page: 10
+                total_reff: 100
+                ref_list:
+                  - email: "sadxxssxx@mail.com"
+                    state: "verified"
+                    total_reward_ref: 200
+                  - email: "sadxxxx@mail.com"
+                    state: "pending"
+                    total_reward_ref: 200
+                  - email: "sadxsssssxxx@mail.com"
+                    state: "verified"
+                    total_reward_ref: 0
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              example:
+                message: jwt expired etc.
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+                    example: "Unauthorized User."
+
+  /prhistory_buy_reff:
+    get:
+      tags:
+        - Private API
+      summary: Get Referral Purchase History
+      description: Retrieves a paginated list of referral purchase history for the authenticated user.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: Page number (1-based).
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            default: 10
+          description: Number of entries per page.
+      responses:
+        '200':
+          description: Referral purchase history retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: integer
+                    description: Current page number.
+                  per_page:
+                    type: integer
+                    description: Number of entries per page.
+                  total_trx:
+                    type: integer
+                    description: Total number of transactions.
+                  ref_list:
+                    type: array
+                    description: Array of referral purchase history objects.
+                    items:
+                      type: object
+                      properties:
+                        email:
+                          type: string
+                          description: Referral's email address.
+                        state:
+                          type: string
+                          description: Transaction state (e.g., "success", "pending").
+                        total_buy:
+                          type: integer
+                          description: Total amount purchased by the referral.
+                        reward_reff:
+                          type: integer
+                          description: Referral reward amount.
+              example:
+                page: 1
+                per_page: 10
+                total_trx: 100
+                ref_list:
+                  - email: "sadxxssxx@mail.com"
+                    state: "success"
+                    total_buy: 3000
+                    reward_reff: 200
+                  - email: "sadxxxx@mail.com"
+                    state: "pending"
+                    total_buy: 3000
+                    reward_reff: 200
+                  - email: "sadxsssssxxx@mail.com"
+                    state: "success"
+                    total_buy: 3000
+                    reward_reff: 0
+
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              example:
+                message: jwt expired etc.
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+                    example: "Unauthorized User."
+
+  /deposit_tracker:
+    post:
+      tags:
+        - Private API
+      summary: Check Deposit Status
+      description: Verifies the status of a Binance Smart Chain (BSC) deposit transaction.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tx_id:
+                  type: string
+                  description: Binance Smart Chain transaction ID.
+                  example: "0x123456789abcdef..."
+              required:
+                - tx_id
+      responses:
+        '200':
+          description: Deposit transaction found and verified.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Status of the deposit.
+                    example: "success"
+                  message:
+                    type: string
+                    description: Additional message (optional).
+                    example: "Deposit confirmed."
+        '400':
+          description: Bad request (e.g., invalid transaction ID).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+                    example: "Invalid transaction ID."
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+                    example: "Unauthorized User."
+        '404':
+          description: Deposit transaction not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+                    example: "Transaction not found."
+
+  /history_transaction:
+    get:
+      tags:
+        - Private API
+      summary: Get User Transaction History
+      description: Retrieves a paginated list of the authenticated user's transaction history.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: Page number (1-based).
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            default: 10
+          description: Number of transactions per page.
+      responses:
+        '200':
+          description: Transaction history retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: integer
+                    description: Current page number.
+                  per_page:
+                    type: integer
+                    description: Number of transactions per page.
+                  total_trx:
+                    type: integer
+                    description: Total number of transactions.
+                  total_buy:
+                    type: integer
+                    description: Total amount purchased.
+                  ref_list:
+                    type: array
+                    description: Array of transaction objects.
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          format: date-time
+                          description: Date and time of the transaction.
+                        state:
+                          type: string
+                          description: Transaction state (e.g., "success", "pending").
+                        currency:
+                          type: string
+                          description: Currency used in the transaction (e.g., "bnb", "usdt").
+                        amount:
+                          type: number
+                          description: Transaction amount.
+                        paid:
+                          type: number
+                          description: Amount paid (if applicable).
+                        tx_id:
+                          type: string
+                          description: Transaction ID.
+              example:
+                page: 1
+                per_page: 10
+                total_trx: 100
+                total_buy: 2000
+                ref_list:
+                  - date: "2024-07-19T12:00:00Z"
+                    state: "success"
+                    currency: "bnb"
+                    amount: 200
+                    paid: 0.5
+                    tx_id: "0xxxxxxx"
+                  - date: "2024-07-18T15:30:00Z"
+                    state: "pending"
+                    currency: "usdt"
+                    amount: 200
+                    paid: 200
+                    tx_id: "0xxxxxxx"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              example:
+                message: some form must be filled or code invalid
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+                    example: "Unauthorized User."
+  /presale:
+    get:
+      tags:
+        - Public API
+      summary: Get Presale Information
+      description: Retrieves information about the ongoing token presale.
+      responses:
+        '200':
+          description: Presale information retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token_name:
+                    type: string
+                    description: Name of the token.
+                    example: "ABC Token"
+                  token_symbol:
+                    type: string
+                    description: Symbol of the token.
+                    example: "ABC"
+                  price_usdt:
+                    type: number
+                    description: Price of one token in USDT.
+                    example: 0.01
+                  price_bnb:
+                    type: number
+                    description: Price of one token in BNB.
+                    example: 0.000025
+                  total_sold:
+                    type: integer
+                    description: Total number of tokens sold.
+                    example: 1500000
+                  total_supply:
+                    type: integer
+                    description: Total supply of tokens available for presale.
+                    example: 10000000
+              example:
+                token_name: "ABC Token"
+                token_symbol: "ABC"
+                price_usdt: "0.01"
+                price_bnb: "0.000025"
+                total_sold: "1500000"
+                total_supply: "10000000"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
