@@ -241,7 +241,7 @@ paths:
                     type: string
                     description: User's referral code.
               example:
-                balance: 2000
+                balance_token: 2000
                 reward_balance: 200
                 address: "0x121233"
                 reff_code: "code123"
@@ -588,12 +588,14 @@ paths:
                     state: "success"
                     currency: "bnb"
                     amount: 200
+                    reward: 200
                     paid: 0.5
                     tx_id: "0xxxxxxx"
                   - date: "2024-07-18T15:30:00Z"
                     state: "pending"
                     currency: "usdt"
                     amount: 200
+                    reward: 200
                     paid: 200
                     tx_id: "0xxxxxxx"
         "400":

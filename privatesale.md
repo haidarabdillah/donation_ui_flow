@@ -72,3 +72,9 @@ seperti pada gambar ini https://photos.pinksale.finance/file/pinksale-logo-uploa
 - **Riwayat Pembelian Pengguna (Tabel)**: Menampilkan riwayat pembelian pribadi pengguna dalam bentuk tabel dengan header "Tanggal", "Jumlah Token", "Jumlah BNB/USDT", dan "Metode Pembayaran".
 - **Informasi Distribusi**: Memberikan tanggal dan waktu kapan token akan didistribusikan.
 - **Riwayat Distribusi dan Tombol Klaim**: Menampilkan riwayat distribusi token pengguna dan menyediakan tombol klaim ketika token siap untuk diklaim.
+
+# WITHDRAWAL RULES
+1. user mendaftarkan alamat wallet bep20 ke form ketika claim pertama kali
+2. user harus melakukan konfirmasi email untuk mengaktifkan alamat wallet tersebut 
+3. user bisa merubah ketika wallet belum di konfirmasi email
+4. user tidak bisa merubah wallet ketika sudah di konfirmasi
