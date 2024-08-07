@@ -626,40 +626,22 @@ paths:
           description: Presale information retrieved successfully.
           content:
             application/json:
-              schema:
-                type: object
-                properties:
-                  token_name:
-                    type: string
-                    description: Name of the token.
-                    example: "ABC Token"
-                  token_symbol:
-                    type: string
-                    description: Symbol of the token.
-                    example: "ABC"
-                  price_usdt:
-                    type: number
-                    description: Price of one token in USDT.
-                    example: 0.01
-                  price_bnb:
-                    type: number
-                    description: Price of one token in BNB.
-                    example: 0.000025
-                  total_sold:
-                    type: integer
-                    description: Total number of tokens sold.
-                    example: 1500000
-                  total_supply:
-                    type: integer
-                    description: Total supply of tokens available for presale.
-                    example: 10000000
+
               example:
                 token_name: "ABC Token"
                 token_symbol: "ABC"
-                price_usdt: "0.01"
-                price_bnb: "0.000025"
-                total_sold: "1500000"
-                total_supply: "10000000"
+                minimum_buy: "1500000.00"
+                enable_reff_buy: false
+                price_usdt: "0.0100"
+                price_bnb: "0.0000"
+                reff_reward: 5
+                total_sold: "1500000.0000"
+                total_supply: "10000000.0000"
+                start_at: "2024-07-18T17:00:00.000Z"
+                end_at: "2024-07-18T17:00:00.000Z"
+                distribution_date: "2024-07-18T17:00:00.000Z"
+                created_at: "2024-07-25T13:11:18.087Z"
+                updated_at: "2024-07-25T13:11:18.087Z"
 
 components:
   securitySchemes:
