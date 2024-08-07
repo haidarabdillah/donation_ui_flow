@@ -43,6 +43,9 @@ exports.up = function (knex) {
       table.specificType('tags', 'TEXT[]');
       table.date('start_at').nullable();
       table.date('end_at').nullable();
+      table.string('address', 42).notNullable();
+      table.string('iv', 255).nullable();
+      table.string('content', 255).nullable();
       table.timestamps(true, true);
     })
     .createTable('donation_transaction', function (table) {
@@ -116,6 +119,12 @@ exports.up = function (knex) {
       table.string('tx_hash').nullable();
       table.timestamps(true, true);
     })
+    .createTable('tx_checker', function (table) {
+      table.increments('id').primary();
+      table.enu('state', ['pending', 'waiting_approval', 'process', 'success', 'failed']).notNullable().defaultTo('pending');
+      table.string('tx_hash').nullable();
+      table.timestamps(true, true);
+    })
     .createTable('withdrawal_history', function (table) {
       table.increments('id').primary();
       table.integer('user_id').unsigned().notNullable();
@@ -156,6 +165,13 @@ exports.up = function (knex) {
       table.boolean('is_ended').defaultTo(false);
       table.timestamps(true, true);
     })
+
+    .createTable('tags', function (table) {
+      table.increments('id').primary();
+      table.string('name_tag').nullable();
+      table.timestamps(true, true);
+    })
+
     .createTable('distribution', function (table) {
       table.increments('id').primary();
       table.string('name').notNullable();
@@ -191,6 +207,8 @@ exports.up = function (knex) {
 
 exports.down = function (knex) {
   return knex.schema
+    .dropTableIfExists('tags')
+    .dropTableIfExists('tx_checker')
     .dropTableIfExists('donation_transaction')
     .dropTableIfExists('user_address')
     .dropTableIfExists('user_distribution')
