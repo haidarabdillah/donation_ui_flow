@@ -213,7 +213,5 @@ login tanpa register
         - block_height: angka
     - tx checker (mengecek tx id yang tidak success oleh users) : tx_checker
 6. admin wallet (editable)
-    - hot_wallet (non editable)
-    - hot_private_key (editable)
-    - fee_wallet (non editable)
-    - fee_private_key (editable)
+    - hot_wallet (non editable), balance usdt, balance mrg, balance bnb
+    - fee_wallet (non editable), balance usdt, balance mrg, balance bnb
